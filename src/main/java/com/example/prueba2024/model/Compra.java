@@ -30,6 +30,7 @@ public class Compra {
 	private LocalDate fecha;
 	@ManyToOne
 	@JoinColumn(name = "id_cliente", referencedColumnName = "id",  nullable = false)
-	//@JsonBackReference
+	//@JsonBackReference ESTO TRAE PROBLEMAS PARA EL TEST DE crearOferta DEL CONTROLLER
+
 	private Cliente cliente;
 }
