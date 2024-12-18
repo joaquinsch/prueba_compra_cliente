@@ -23,7 +23,7 @@ import lombok.Setter;
 @Entity
 public class Compra {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id_compra;
 	private Double precio;
 	 @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")

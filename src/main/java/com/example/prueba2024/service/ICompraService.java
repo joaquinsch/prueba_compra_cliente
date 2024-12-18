@@ -10,6 +10,6 @@ public interface ICompraService {
 	public Compra buscarCompra(Long id);
 	public Compra editarCompra(Compra compra);
 	public void eliminarCompra(Long id);
-	
+	public Compra obtenerCompraDeMayorPrecio();
 
 }

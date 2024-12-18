@@ -1,5 +1,6 @@
 package com.example.prueba2024.service;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,5 +51,18 @@ public class CompraService implements ICompraService{
 		compraRepositorio.deleteById(id);
 		
 	}
+
+	@Override
+	public Compra obtenerCompraDeMayorPrecio() {
+		List<Compra> compras = this.listarCompras();
+		Compra compraMayor = compras.get(0);
+		for (Compra compra : compras) {
+			if (compraMayor.getPrecio() < compra.getPrecio()) {
+				compraMayor = compra;
+			}
+		}
+		return compraMayor;
+	}
+
 
 }

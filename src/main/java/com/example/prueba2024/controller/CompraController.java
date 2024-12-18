@@ -86,4 +86,9 @@ public class CompraController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ha ocurrido un error interno");
 		}
 	}
+
+	@GetMapping("/compras/compramayor")
+	public Compra obtenerCompraMayor() {
+		return this.iCompraService.obtenerCompraDeMayorPrecio();
+	}
 }

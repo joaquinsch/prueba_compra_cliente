@@ -1,6 +1,5 @@
 package com.example.prueba2024;
 
-import static org.mockito.Mockito.doAnswer;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.time.LocalDate;
@@ -149,5 +148,16 @@ public class CompraControllerTest {
 				.content(compraEditadaJson))
 				.andExpect(status().isAccepted())
 				.andExpect(MockMvcResultMatchers.content().string("Se ha editado la compra"));
+	}
+
+	@Test
+	public void obtenerCompraDeMayorPrecio() throws Exception{
+		Mockito.when(iCompraServicio.obtenerCompraDeMayorPrecio()).thenReturn(COMPRA_1);
+		String compraMayorJson = this.objectMapper.writeValueAsString(COMPRA_1);
+		mockMvc.perform(MockMvcRequestBuilders.get("/compras/compramayor")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(compraMayorJson))
+				.andExpect(status().isOk())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.precio").value(10000));
 	}
 }
