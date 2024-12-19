@@ -51,10 +51,10 @@ public class ServicioCompraTest {
 		
 		//given
 		List<Compra> comprasMock = new ArrayList<>();
-		comprasMock.add(new Compra(null, Double.valueOf(50), LocalDate.of(2024,11, 01), null));
-		comprasMock.add(new Compra(null, Double.valueOf(100), LocalDate.of(2024,11, 02), null));
-		comprasMock.add(new Compra(null, Double.valueOf(50.5), LocalDate.of(2024,11, 22), null));
-		comprasMock.add(new Compra(null, Double.valueOf(23000), LocalDate.of(2024,11, 10), null));
+		comprasMock.add(new Compra(null, Double.valueOf(50), LocalDate.of(2024,11, 01), null, null));
+		comprasMock.add(new Compra(null, Double.valueOf(100), LocalDate.of(2024,11, 02), null, null));
+		comprasMock.add(new Compra(null, Double.valueOf(50.5), LocalDate.of(2024,11, 22), null, null));
+		comprasMock.add(new Compra(null, Double.valueOf(23000), LocalDate.of(2024,11, 10), null, null));
 		given(compraRepo.findAll()).willReturn(comprasMock);
 		
 		//when
@@ -68,7 +68,7 @@ public class ServicioCompraTest {
 	@Test
 	public void guardarCompra() {
 		//given
-		Compra compra = new Compra(null, Double.valueOf(50), LocalDate.of(2024, 11, 01), null);
+		Compra compra = new Compra(null, Double.valueOf(50), LocalDate.of(2024, 11, 01), null , null);
 		given(compraRepo.save(compra)).willReturn(compra);
 		
 		//when
@@ -93,7 +93,7 @@ public class ServicioCompraTest {
 	public void buscarCompra() {
 		//given
 
-		Compra compra1 = new Compra(1L, Double.valueOf(50), LocalDate.of(2024, 11, 01), null);
+		Compra compra1 = new Compra(1L, Double.valueOf(50), LocalDate.of(2024, 11, 01), null , null);
 		given(compraRepo.save(compra1)).willReturn(compra1);
 		given(compraRepo.findById(compra1.getId_compra())).willReturn(Optional.of(compra1));
 
@@ -108,9 +108,9 @@ public class ServicioCompraTest {
 	@Test
 	public void actualizarCompra() {
 		Compra unaCompra = new Compra(1L, Double.valueOf(50), LocalDate.of(2024, 11, 01), 
-				new Cliente(1L, "Carlos", "Pérez", "carlitosperez@gmail.com", LocalDate.of(1964, 10, 5), new ArrayList<>()));
+				new Cliente(1L, "Carlos", "Pérez", "carlitosperez@gmail.com", LocalDate.of(1964, 10, 5), new ArrayList<>()), null);
 		Compra compraEditada = new Compra(1L, Double.valueOf(60), LocalDate.of(2024, 11, 01), 
-		            new Cliente(1L, "Carlos", "Pérez", "carlitosperez@gmail.com", LocalDate.of(1964, 10, 5), new ArrayList<>()));
+		            new Cliente(1L, "Carlos", "Pérez", "carlitosperez@gmail.com", LocalDate.of(1964, 10, 5), new ArrayList<>()), null);
 
 		Mockito.when(this.compraRepo.findById(compraEditada.getId_compra())).thenReturn(Optional.of(unaCompra));
 		Mockito.when(this.compraRepo.save(compraEditada)).thenReturn(compraEditada);

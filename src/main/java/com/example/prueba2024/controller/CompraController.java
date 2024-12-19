@@ -37,7 +37,7 @@ public class CompraController {
 			if (compra.getCliente() == null) {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("La compra debe estar asociada a un cliente");
 			}
-			Cliente cliente = iClienteService.buscarCliente(compra.getCliente().getId());
+			Cliente cliente = iClienteService.buscarCliente(compra.getCliente().getId_cliente());
 			if (cliente == null) {
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El cliente no existe");
 			}	
@@ -88,7 +88,7 @@ public class CompraController {
 	}
 
 	@GetMapping("/compras/compramayor")
-	public Compra obtenerCompraMayor() {
-		return this.iCompraService.obtenerCompraDeMayorPrecio();
+	public ResponseEntity<Compra> obtenerCompraMayor() {
+		return ResponseEntity.ok(iCompraService.obtenerCompraDeMayorPrecio());
 	}
 }

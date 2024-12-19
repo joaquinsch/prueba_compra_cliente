@@ -51,7 +51,7 @@ public class ServicioClienteTest {
 		Assert.assertEquals(2, clientes.size());
 		doAnswer(invocation -> {
 	        Long idEliminar = invocation.getArgument(0);
-	        clientesMock.removeIf(cliente -> cliente.getId().equals(idEliminar));
+	        clientesMock.removeIf(cliente -> cliente.getId_cliente().equals(idEliminar));
 	        return null; // Método void
 	    }).when(iClienteService).eliminarCliente(Mockito.anyLong());
 		
@@ -74,7 +74,7 @@ public class ServicioClienteTest {
 		doAnswer(invocation -> {
 			Long idBuscado = invocation.getArgument(0);
 			for (Cliente c : clientesMock) {
-				if (c.getId().equals(idBuscado)) {
+				if (c.getId_cliente().equals(idBuscado)) {
 					return c;
 				}
 			}
@@ -102,7 +102,7 @@ public class ServicioClienteTest {
 		doAnswer(invocation ->{
 			Long idEliminar = invocation.getArgument(0); // es el numero de parametro del metodo mockeado
 			for (Cliente c : clientesMock) {
-				if (c.getId().equals(idEliminar)) {
+				if (c.getId_cliente().equals(idEliminar)) {
 					clientesMock.remove(c);
 					break;
 				}

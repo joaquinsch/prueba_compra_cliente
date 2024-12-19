@@ -11,10 +11,12 @@ import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -23,7 +25,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.example.prueba2024.controller.ClienteController;
 import com.example.prueba2024.controller.CompraController;
 import com.example.prueba2024.model.Cliente;
 import com.example.prueba2024.model.Compra;
@@ -32,9 +33,10 @@ import com.example.prueba2024.service.ICompraService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
-@SpringBootTest
+//@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class CompraControllerTest {
-	
+
 	private MockMvc mockMvc;
 	private ObjectMapper objectMapper;
 
@@ -48,7 +50,7 @@ public class CompraControllerTest {
 	private IClienteService iClienteService;
 	
 	@BeforeEach
-	public void setUp() {
+	public void setup() {
 		/*
 		 * MockitoAnnotations.openMocks(this) es una llamada a la 
 		 * API de Mockito que inicializa los mocks 
@@ -57,7 +59,9 @@ public class CompraControllerTest {
 		 * Esto es útil cuando tienes mocks declarados con la anotación @Mock y 
 		 * deseas que se inicien antes de cada prueba.
 		 */
-		MockitoAnnotations.openMocks(this);
+		//MockitoAnnotations.openMocks(this);
+
+		
 		/*
 		 * MockMvcBuilders.standaloneSetup(compraController): Crea una configuración de MockMvc 
 		 * de manera "independiente" 
@@ -70,14 +74,14 @@ public class CompraControllerTest {
 		this.objectMapper = new ObjectMapper();
 		objectMapper.registerModule(new JavaTimeModule());// necesario para las fechas
 	}
-	
-	Compra COMPRA_1 = new Compra(1L, Double.valueOf(10000), LocalDate.of(1993, 8, 20), null);
-	Compra COMPRA_2 = new Compra(2L, Double.valueOf(678), LocalDate.of(2005, 8, 3), null);
-	Compra COMPRA_3 = new Compra(3L, Double.valueOf(500), LocalDate.of(1993, 2, 04), null);
+
+	Compra COMPRA_1 = new Compra(1L, Double.valueOf(10000), LocalDate.of(1993, 8, 20), null, null);
+	Compra COMPRA_2 = new Compra(2L, Double.valueOf(678), LocalDate.of(2005, 8, 3), null, null);
+	Compra COMPRA_3 = new Compra(3L, Double.valueOf(500), LocalDate.of(1993, 2, 04), null, null);
 	List<Compra> comprasCliente = new ArrayList<>();
 	Cliente cliente = new Cliente(1L, "Carlos", "Pérez", "carlitosperez@gmail.com", LocalDate.of(1964, 10, 5), comprasCliente);
-	Compra COMPRA_4 = new Compra(4L, Double.valueOf(45), LocalDate.of(2020, 8, 3), cliente);
-	Compra COMPRA_4_EDITADA = new Compra(4L, Double.valueOf(50), LocalDate.of(2019, 8, 20), cliente);
+	Compra COMPRA_4 = new Compra(4L, Double.valueOf(45), LocalDate.of(2020, 8, 3), cliente, null);
+	Compra COMPRA_4_EDITADA = new Compra(4L, Double.valueOf(50), LocalDate.of(2019, 8, 20), cliente, null);
 
 	@Test
 	public void obtenerTodasLasComprasTest() throws Exception {
@@ -101,9 +105,9 @@ public class CompraControllerTest {
 
 	@Test
 	public void crearCompraTest() throws Exception {
-		Mockito.when(iCompraServicio.buscarCompra(COMPRA_4.getId_compra())).thenReturn(COMPRA_4);
-		Mockito.when(iCompraServicio.crearCompra(COMPRA_4)).thenReturn(COMPRA_4);
-		Mockito.when(iClienteService.buscarCliente(COMPRA_4.getCliente().getId())).thenReturn(COMPRA_4.getCliente());
+		//Mockito.when(iCompraServicio.buscarCompra(COMPRA_4.getId_compra())).thenReturn(COMPRA_4);
+		//Mockito.when(iCompraServicio.crearCompra(COMPRA_4)).thenReturn(COMPRA_4);
+		Mockito.when(iClienteService.buscarCliente(COMPRA_4.getCliente().getId_cliente())).thenReturn(COMPRA_4.getCliente());
 		// paso la compra a json
 		String compraJson = objectMapper.writeValueAsString(COMPRA_4);
 		//System.out.println(compraJson);
@@ -128,8 +132,6 @@ public class CompraControllerTest {
 
 	@Test 
 	public void eliminarCompraQueNoExiste() throws Exception{
-		Mockito.when(iCompraServicio.buscarCompra(COMPRA_4.getId_compra())).thenReturn(COMPRA_4);
-		Mockito.doNothing().when(iCompraServicio).eliminarCompra(COMPRA_4.getId_compra());
 		mockMvc.perform(MockMvcRequestBuilders.delete("/compras/eliminar/6")
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isNotFound())
@@ -138,9 +140,9 @@ public class CompraControllerTest {
 
 	@Test
 	public void editarCompra() throws Exception{
-		Mockito.when(iCompraServicio.buscarCompra(COMPRA_4.getId_compra())).thenReturn(COMPRA_4);
+		Mockito.when(iCompraServicio.buscarCompra(COMPRA_4_EDITADA.getId_compra())).thenReturn(COMPRA_4);
 		// al editarla, ya se le pasan los datos modificados
-		Mockito.when(iCompraServicio.editarCompra(COMPRA_4_EDITADA)).thenReturn(COMPRA_4_EDITADA);
+		Mockito.when(iCompraServicio.editarCompra((Mockito.any(Compra.class)))).thenReturn(COMPRA_4_EDITADA);
 		String compraEditadaJson = objectMapper.writeValueAsString(COMPRA_4_EDITADA);
 
 		mockMvc.perform(MockMvcRequestBuilders.put("/compras/editar")

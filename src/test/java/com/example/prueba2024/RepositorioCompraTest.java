@@ -40,7 +40,7 @@ public class RepositorioCompraTest {
 	public void buscarCompraPorIdYCompararSuPrecio() {
 		Cliente cli1 = new Cliente();
 		clienteRepo.save(cli1);
-		Compra compra1 = new Compra(null, Double.valueOf(50), null, cli1);
+		Compra compra1 = new Compra(null, Double.valueOf(50), null, cli1, null);
 		//Compra compra2 = new Compra(null, Double.valueOf(0), null);
 		Compra compraGuardada1 = compraRepo.save(compra1);
 		//Compra compraGuardada2 = compraRepo.save(compra2);
@@ -52,7 +52,7 @@ public class RepositorioCompraTest {
 	public void eliminarUnaCompra() {
 		Cliente cli1 = new Cliente();
 		clienteRepo.save(cli1);
-		Compra compra1 = new Compra(null, Double.valueOf(50), null, cli1);
+		Compra compra1 = new Compra(null, Double.valueOf(50), null, cli1, null);
 		Compra compraGuardada1 = compraRepo.save(compra1);
 		assertEquals(1, compraRepo.findAll().size());
 		compraRepo.deleteById(compraGuardada1.getId_compra());

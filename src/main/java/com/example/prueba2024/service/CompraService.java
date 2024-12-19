@@ -19,9 +19,6 @@ public class CompraService implements ICompraService{
 	@Autowired
 	private CompraRepositorio compraRepositorio;
 	
-	@Autowired
-	private ClienteRepositorio clienteRepositorio;
-
 	@Override
 	public List<Compra> listarCompras() {
 		return compraRepositorio.findAll();
@@ -40,7 +37,7 @@ public class CompraService implements ICompraService{
 
 	public Compra editarCompra(Compra compra) {
 		Compra compraBuscada = buscarCompra(compra.getId_compra());
-		if (compra.getCliente().getId() != compraBuscada.getCliente().getId()) {
+		if (compra.getCliente().getId_cliente() != compraBuscada.getCliente().getId_cliente()) {
 			throw new EntityNotFoundException("El cliente que querés modificar no existe");
 		}
 		return compraRepositorio.save(compra);
