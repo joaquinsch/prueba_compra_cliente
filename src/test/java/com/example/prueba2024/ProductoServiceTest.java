@@ -2,7 +2,9 @@ package com.example.prueba2024;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
+import org.assertj.core.util.Arrays;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -59,5 +61,26 @@ public class ProductoServiceTest {
 		Assert.assertEquals(resultado.getDescripcion(), "gaseosa");
 		Assert.assertEquals(resultado.getCompras().size(), 1);
 		Assert.assertEquals(resultado.getCompras().get(0).getCliente().getNombre(), "jose");
+	}
+
+	@Test
+	public void listarLosProductos() {
+		Producto prod1 = new Producto(1L, "coca", "gaseosa", new ArrayList<>());
+		Producto prod2 = new Producto(2L, "fanta", "gaseosa", new ArrayList<>());
+		Producto prod3 = new Producto(3L, "sprite", "gaseosa", new ArrayList<>());
+		List<Producto> productos = new ArrayList<>();
+		productos.add(prod1);
+		productos.add(prod2);
+		productos.add(prod3);
+		Mockito.when(this.productoRepo.findAll()).thenReturn(productos);
+
+		List<Producto> resultado = this.productoService.listarProductos();
+
+		Mockito.verify(productoRepo).findAll();
+		Assert.assertEquals(resultado.size(), 3);
+		Assert.assertEquals(resultado.get(0), productos.get(0));
+		Assert.assertEquals(resultado.get(1), productos.get(1));
+		Assert.assertEquals(resultado.get(2), productos.get(2));
+		
 	}
 }

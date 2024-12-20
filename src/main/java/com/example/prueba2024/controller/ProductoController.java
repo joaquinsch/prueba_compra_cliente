@@ -1,8 +1,11 @@
 package com.example.prueba2024.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,6 +28,11 @@ public class ProductoController {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ocurrió un error interno");
 		}
+	}
+
+	@GetMapping("/productos/listar")
+	public ResponseEntity<List<Producto>> listarProductos(){
+		return ResponseEntity.ok(this.iProductoService.listarProductos());
 	}
 	
 }
