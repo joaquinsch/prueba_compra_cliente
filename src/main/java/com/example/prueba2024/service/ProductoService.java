@@ -1,5 +1,6 @@
 package com.example.prueba2024.service;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +13,9 @@ public class ProductoService implements IProductoService {
 	private ProductoRepositorio productoRepo;
 	
 	@Override
-	public void crearProducto(Producto producto) {
-		productoRepo.save(producto);
+	public Producto crearProducto(Producto producto) {
+		return productoRepo.save(producto);
 	}
+
 	
 }

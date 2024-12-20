@@ -22,6 +22,7 @@ public class ProductoController {
 			iProductoService.crearProducto(producto);
 			return ResponseEntity.status(HttpStatus.CREATED).body("Se ha creado el producto");
 		} catch (Exception e) {
+			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ocurrió un error interno");
 		}
 	}

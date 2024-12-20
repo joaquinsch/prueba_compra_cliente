@@ -2,6 +2,7 @@ package com.example.prueba2024.model;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -30,6 +31,13 @@ public class Producto {
 	private String nombre;
 	private String descripcion;
 
+	/*
+	 * IMPORTANTE: en manytomany, siempre hay un 'dueño' de la relacion,
+	 * en este caso es Producto. El lado inverso es Compra.
+	 * NO se puede crear una Compra y agregarle productos, porque no es la dueña de 
+	 * la relacion, no va a agregar nada a la tabla intermedia. Es decir que solo se puede
+	 * crear un Producto con sus compras.
+	 */
 	@ManyToMany
 	@JoinTable(name = "compra_producto", joinColumns = 
 		@JoinColumn(name = "id_producto", referencedColumnName = "id_producto"), 

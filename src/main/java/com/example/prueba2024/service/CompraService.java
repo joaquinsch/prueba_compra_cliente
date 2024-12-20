@@ -35,6 +35,7 @@ public class CompraService implements ICompraService{
 		
 	}
 
+	@Override
 	public Compra editarCompra(Compra compra) {
 		Compra compraBuscada = buscarCompra(compra.getId_compra());
 		if (compra.getCliente().getId_cliente() != compraBuscada.getCliente().getId_cliente()) {
